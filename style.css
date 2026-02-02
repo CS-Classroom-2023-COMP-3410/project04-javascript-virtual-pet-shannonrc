@@ -1,0 +1,94 @@
+/* resets default browser spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* centers everything on the page */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f6fb;
+  font-family: Arial, sans-serif;
+}
+
+/* main for the pet dashboard */
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 16px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* title text */
+h1 {
+  margin-bottom: 10px;
+}
+
+/* the cutie pet itself inspired by tamagatchi*/
+#pet {
+  width: 140px;
+  height: 140px;
+  margin: 20px auto;
+  border-radius: 50%;
+  background-color: #ffd6e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  transition: all 0.3s ease;
+}
+
+/* happy pet look */
+.pet-happy {
+  background-color: #c8f7c5;
+}
+
+/* hungry pet look */
+.pet-hungry {
+  background-color: #ffe4b5;
+}
+
+/* sleepy pet look */
+.pet-sleepy {
+  background-color: #d6e4ff;
+}
+
+
+
+/* status text area */
+.status {
+  margin-bottom: 15px;
+}
+
+/* spacing for each status line */
+.status p {
+  margin: 4px 0;
+}
+
+/* button container */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* style for all buttons */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #7b8cff;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* active click effect */
+button:active {
+  transform: scale(0.95);
+}
