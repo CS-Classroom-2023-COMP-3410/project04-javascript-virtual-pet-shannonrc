@@ -1,47 +1,60 @@
-<html>
-    <head>
-        <script src="script.js" defer></script>
-        <style>
-            body {
-                display: flex;
-                width: 100%;
-                justify-content: center;
-            }
-            div {
-                font-size: 200px;
-                display: inline-block;
-            }
-            #cardGrid {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr;
-                grid-template-rows: 200px 200px 200px 200px;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="hud" style="font-size: 24px; margin-right: 30px;">
-        <p>Moves: <span id="moveCount">0</span></p>
-        <p>Time: <span id="timer">0</span>s</p>
-        <button id="restartBtn">Restart</button>
-        <p id="status" style="font-weight: bold;"></p>
-    </div>
-        <div id="cardGrid">
-            <div id="card-0">&#127136;</div>
-            <div id="card-1">&#127136;</div>
-            <div id="card-2">&#127136;</div>
-            <div id="card-3">&#127136;</div>
-            <div id="card-4">&#127136;</div>
-            <div id="card-5">&#127136;</div>
-            <div id="card-6">&#127136;</div>
-            <div id="card-7">&#127136;</div>
-            <div id="card-8">&#127136;</div>
-            <div id="card-9">&#127136;</div>
-            <div id="card-10">&#127136;</div>
-            <div id="card-11">&#127136;</div>
-            <div id="card-12">&#127136;</div>
-            <div id="card-13">&#127136;</div>
-            <div id="card-14">&#127136;</div>
-            <div id="card-15">&#127136;</div>
-        </div>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- basic set up -->
+  <meta charset="utf-8"> 
+  <!-- tab title -->
+  <title>virtual pet</title> 
+
+  <style>
+    /* basic page style */
+    body { font-family: sans-serif; text-align: center; background-color: #f4f4f4; } 
+
+    #pet {
+        /* pet width */
+      width: 150px; 
+      /* pet height */
+      height: 150px; 
+      /* center pet */
+      margin: 20px auto; 
+      /* default pet color */
+      background-color: pink; 
+      /* rounded corners */
+      border-radius: 20px; 
+      /* face size */
+      font-size: 60px; 
+      /* center face vertically */
+      line-height: 150px; 
+      /* stop highlighting */
+      user-select: none; 
+    } /* end pet box */
+    /* button spacing */
+    button { margin: 6px; padding: 10px 14px; } 
+    /* happy color */
+    .happy { background-color: pink; } 
+    /* hungry color */
+    .hungry { background-color: orange; } 
+    /* sleepy color */
+    .sleepy { background-color: lightblue; } 
+    /* mint?? vibe for feed */
+    .fed { background-color: #b8f2d0; } 
+    /* yellow gives fun and play */
+    .played { background-color: #fff3a3; } 
+  </style>
+</head>
+<!-- buttons -->
+<body>
+    <!-- pet display -->
+  <div id="pet">^_^</div> 
+   <!-- status text -->
+  <p id="status">mood: happy | health: good</p>
+    <!-- feed button -->
+  <button id="feed-btn" type="button">feed</button> 
+  <!-- play button -->
+  <button id="play-btn" type="button">play</button> 
+  <!-- sleep button -->
+  <button id="sleep-btn" type="button">sleep</button> 
+    <!-- get the script -->
+  <script src="script.js"></script> 
+</body>
 </html>
