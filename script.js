@@ -1,174 +1,132 @@
-const randIndex = function(lastIndex) {
-    return Math.floor(Math.random() * (lastIndex + 1));
-}
-
-let allCards = [ 
-    "&#127136;", "&#127137;", "&#127138;", "&#127139;", "&#127140;", "&#127141;",
-    "&#127142;", "&#127143;", "&#127144;", "&#127145;", "&#127146;", "&#127147;",
-    "&#127148;", "&#127149;", "&#127150;", "&#127153;", "&#127154;", "&#127155;",
-    "&#127156;", "&#127157;", "&#127158;", "&#127159;", "&#127160;", "&#127161;",
-    "&#127162;", "&#127163;", "&#127164;", "&#127165;", "&#127166;", "&#127167;",
-    "&#127169;", "&#127170;", "&#127171;", "&#127172;", "&#127173;", "&#127174;",
-    "&#127175;", "&#127176;", "&#127177;", "&#127178;", "&#127179;", "&#127180;",
-    "&#127181;", "&#127182;", "&#127183;", "&#127185;", "&#127186;", "&#127187;",
-    "&#127188;", "&#127189;", "&#127190;", "&#127191;", "&#127192;", "&#127193;",
-    "&#127194;", "&#127195;", "&#127196;", "&#127197;", "&#127198;", "&#127199;" ];
-
-let cardBack = allCards[0];
-allCards.shift();
-
-let gameDeck = [];
-for(let i = 0; i < 8; i++) {
-    let lastIndex = allCards.length - 1;
-    r = randIndex(lastIndex);
-    gameDeck.push(allCards[r]);
-    allCards.splice(r, 1);
-}
-
-console.log(gameDeck);
-
-gameDeck = gameDeck.concat(gameDeck);
-
-// store flipped cards
-let firstCard = null;
-let secondCard = null;
-
-// store the indexes in the deck
-let firstIndex = null;
-let secondIndex = null;
-
-// stops clicking while flip back
-let waiting = false;
-
-// score is how many matches
-let score = 0;
-
-// moves is how many tries
-let moves = 0;
-
-// the timer
-let seconds = 0;
-let timerStarted = false;
-let timerInterval = null;
-
-let moveCountEl = document.getElementById("moveCount");
-let timerEl = document.getElementById("timer");
-let statusEl = document.getElementById("status");
-let restartBtn = document.getElementById("restartBtn");
+// basic set up
+// mood
+let mood = localStorage.getItem("mood") || "happy"; 
+// health
+let health = localStorage.getItem("health") || "good";
 
 
-const handleClick = function(event) {
+// get elements
+// pet div
+const pet = document.getElementById("pet"); 
+ // status p
+const statusText = document.getElementById("status");
+// feed button
+const feedBtn = document.getElementById("feed-btn"); 
+// play button
+const playBtn = document.getElementById("play-btn"); 
+// sleep button
+const sleepBtn = document.getElementById("sleep-btn"); 
 
-    // no click while card is flipping
-    if(waiting === true) {
-        return;
-    }
+// save
+function saveState() {
+    // save mood
+  localStorage.setItem("mood", mood); 
+   // save health
+  localStorage.setItem("health", health);
+} // end save
 
-    let clickedCard = event.target;
-    let cardIdx = clickedCard.id.slice(5);
+// clear all pet classes
+function clearPetClasses() {
+     // reset classes
+  pet.className = "";
+} // end clear
 
-    // timer on first click
-    if(timerStarted === false) {
-        timerStarted = true;
-        timerInterval = setInterval(function() {
-            seconds = seconds + 1;
-            timerEl.innerHTML = seconds;
-        }, 1000);
-    }
+// update everything on screen
+function updateDisplay() {
+    // show status
+  statusText.textContent = "mood: " + mood + " | health: " + health; 
+    // clear styles first
+  clearPetClasses(); 
+    // happy wording
+  if (mood === "happy") { 
+    // happy face so cutie ^_^
+    pet.textContent = "^_^"; 
+     // happy color
+    pet.classList.add("happy");
+  } // end happy
+  // hungry look
+  if (mood === "hungry") { 
+    // hungry face lol
+    pet.textContent = "._."; 
+    // hungry color
+    pet.classList.add("hungry"); 
+  } // end hungry
+// sleepy look
+  if (mood === "sleepy") { 
+    // sleepy face (me lol)
+    pet.textContent = "-_-"; 
+    // sleepy color
+    pet.classList.add("sleepy"); 
+  } // end sleepy
+  // save after display update
+  saveState(); 
+} // end update
 
-    // flip the clicked card
-    clickedCard.innerHTML = gameDeck[cardIdx];
+// show a quick reaction then go back to normal
+function doQuickReaction(tempFace, tempClass) {
+    // clear old class
+  clearPetClasses(); 
+   // set temporary face
+  pet.textContent = tempFace;
+   // set temporary color
+  pet.classList.add(tempClass);
 
-    // if firstCard is empty
-    if(firstCard === null) {
-        firstCard = clickedCard;
-        firstIndex = cardIdx;
-        return;
-    }
+  setTimeout(function() {
+    // return to normal mood look
+    updateDisplay();
+    // time for the face display 
+  }, 600); 
+} // end quick reaction
 
-    // if they click the same card twice 
-    if(firstCard === clickedCard) {
-        return;
-    }
-    secondCard = clickedCard;
-    secondIndex = cardIdx;
+// feed action
+function feedPet() {
+    // set mood
+  mood = "happy"; 
+  // improve health
+  health = "good"; 
+  // save now
+  saveState(); 
+  // feed reaction look so cutie
+  doQuickReaction(":3", "fed"); 
+} // end feed
 
-    // flipped 2 cards so count as a move
-    moves = moves + 1;
-    moveCountEl.innerHTML = moves;
+// play action
+function playPet() {
+    // set mood
+  mood = "happy"; 
+  // save now
+  saveState(); 
+  // play reaction look
+  doQuickReaction(">_<", "played"); 
+} // end play
 
-    if(gameDeck[firstIndex] === gameDeck[secondIndex]) {
+// sleep action
+function sleepPet() {
+    // set mood
+  mood = "sleepy"; 
+  // save 
+  saveState(); 
+  // show sleepy immediately
+  updateDisplay(); 
+} // end sleep
 
-        firstCard.onclick = null;
-        secondCard.onclick = null;
+// the clicks yay pls work
+// connect feed click
+feedBtn.onclick = feedPet; 
+// connect play click
+playBtn.onclick = playPet; 
+ // connect sleep click
+sleepBtn.onclick = sleepPet;
 
-        // add to score
-        score = score + 1;
+// time decay (gets worse over time if not given attention)
+setInterval(function() {
+    // becomes hungry
+  mood = "hungry"; 
+  // health drops
+  health = "bad"; 
+  // update screen
+  updateDisplay(); 
+  // every 15 seconds
+}, 15000); 
 
-        firstCard = null;
-        secondCard = null;
-        firstIndex = null;
-        secondIndex = null;
-
-        // win when score is 8 matches
-        if(score === 8) {
-            statusEl.innerHTML = "YOU WIN!";
-            clearInterval(timerInterval);
-        }
-
-    } else {
-
-        waiting = true;
-
-        setTimeout(function() {
-            firstCard.innerHTML = cardBack;
-            secondCard.innerHTML = cardBack;
-
-            // reset
-            firstCard = null;
-            secondCard = null;
-            firstIndex = null;
-            secondIndex = null;
-
-            waiting = false;
-        }, 800);
-    }
-}
-
-
-for(let i = 0; i < 16; i++) {
-    document.querySelector('#card-'+i).onclick = handleClick;
-}
-
-// restarting
-const restartGame = function() {
-
-    // reset the variables
-    firstCard = null;
-    secondCard = null;
-    firstIndex = null;
-    secondIndex = null;
-    waiting = false;
-    score = 0;
-    moves = 0;
-    seconds = 0;
-    timerStarted = false;
-    moveCountEl.innerHTML = "0";
-    timerEl.innerHTML = "0";
-    statusEl.innerHTML = "";
-
-    // stop time
-    if(timerInterval !== null) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
-
-    // flip everything back 
-    for(let i = 0; i < 16; i++) {
-        let card = document.querySelector('#card-'+i);
-        card.innerHTML = cardBack;
-        card.onclick = handleClick;
-    }
-}
-
-restartBtn.onclick = restartGame;
+updateDisplay(); 
